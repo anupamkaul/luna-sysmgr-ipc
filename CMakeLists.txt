@@ -42,7 +42,10 @@ webos_config_build_doxygen(doc Doxyfile)
 webos_add_compiler_flags(ALL -g -O3 -Wall -Werror -fno-exceptions -fno-rtti -DQT_WEBOS)
 webos_add_linker_options(ALL --no-undefined)
 
-file(GLOB SOURCE_FILES src/base/*.cpp)
+include_directories(src/base)
+
+file(GLOB SOURCE_FILES src/base/*.cpp src/ipc/*.cpp)
+#file(GLOB SOURCE_FILES src/ipc/*.cpp)
 
 add_library(LunaSysMgrIpc SHARED ${SOURCE_FILES})
 target_link_libraries(LunaSysMgrIpc ${GLIB2_LDFLAGS} ${GTHREAD2_LDFLAGS})
