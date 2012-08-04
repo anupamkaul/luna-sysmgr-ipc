@@ -24,8 +24,6 @@ include(webOS/webOS)
 webos_modules_init(1 0 0 QUALIFIER RC2)
 webos_component(2 0 0)
 
-# -- webos_build_pkgconfig()
-
 include(FindPkgConfig)
 
 # -- check for glib 2.0
@@ -42,12 +40,20 @@ webos_config_build_doxygen(doc Doxyfile)
 webos_add_compiler_flags(ALL -g -O3 -Wall -Werror -fno-exceptions -fno-rtti -DQT_WEBOS)
 webos_add_linker_options(ALL --no-undefined)
 
+# -- add local include paths
 include_directories(src/base)
 
 file(GLOB SOURCE_FILES src/base/*.cpp src/ipc/*.cpp)
-#file(GLOB SOURCE_FILES src/ipc/*.cpp)
-
 add_library(LunaSysMgrIpc SHARED ${SOURCE_FILES})
 target_link_libraries(LunaSysMgrIpc ${GLIB2_LDFLAGS} ${GTHREAD2_LDFLAGS})
+
+#webos_build_library()
+
+# -- install library and include files
+MESSAGE (STATUS, "Installing include files in ${WEBOS_INSTALL_INCLUDEDIR}")
+install(DIRECTORY src/base src/ipc DESTINATION ${WEBOS_INSTALL_INCLUDEDIR}/sysmgr-ipc 
+	FILES_MATCHING PATTERN "*.h"
+	PATTERN "*.h"       PERMISSIONS OWNER_READ 
+)
 
 webos_build_library()
