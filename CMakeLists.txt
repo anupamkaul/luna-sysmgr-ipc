@@ -21,8 +21,10 @@ cmake_minimum_required(VERSION 2.8.7)
 project(LunaSysMgrIpc CXX)
 
 include(webOS/webOS)
-webos_modules_init(1.0.0)
+webos_modules_init(1 0 0 QUALIFIER RC2)
 webos_component(2 0 0)
+
+# -- webos_build_pkgconfig()
 
 include(FindPkgConfig)
 
@@ -38,11 +40,11 @@ webos_add_compiler_flags(ALL ${GTHREAD2_CFLAGS})
 webos_config_build_doxygen(doc Doxyfile)
 
 webos_add_compiler_flags(ALL -g -O3 -Wall -Werror -fno-exceptions -fno-rtti -DQT_WEBOS)
-webos_add_linker_options(ALL, --no-undefined)
+webos_add_linker_options(ALL --no-undefined)
 
 file(GLOB SOURCE_FILES src/base/*.cpp)
 
-add_library(LunaSysMgrIpc ${SOURCE_FILES})
+add_library(LunaSysMgrIpc SHARED ${SOURCE_FILES})
 target_link_libraries(LunaSysMgrIpc ${GLIB2_LDFLAGS} ${GTHREAD2_LDFLAGS})
 
 webos_build_library()
