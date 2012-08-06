@@ -47,8 +47,6 @@ file(GLOB SOURCE_FILES src/base/*.cpp src/ipc/*.cpp)
 add_library(LunaSysMgrIpc SHARED ${SOURCE_FILES})
 target_link_libraries(LunaSysMgrIpc ${GLIB2_LDFLAGS} ${GTHREAD2_LDFLAGS})
 
-#webos_build_library()
-
 # -- install library and include files
 MESSAGE (STATUS, "Installing include files in ${WEBOS_INSTALL_INCLUDEDIR}")
 install(DIRECTORY src/base src/ipc DESTINATION ${WEBOS_INSTALL_INCLUDEDIR}/sysmgr-ipc 
@@ -56,4 +54,5 @@ install(DIRECTORY src/base src/ipc DESTINATION ${WEBOS_INSTALL_INCLUDEDIR}/sysmg
 	PATTERN "*.h"       PERMISSIONS OWNER_READ 
 )
 
-webos_build_library()
+# build the library without looking at include/public for headers
+webos_build_library(NOHEADERS)
